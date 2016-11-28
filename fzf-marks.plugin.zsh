@@ -26,6 +26,17 @@ function jump() {
     zle && zle reset-prompt
 }
 
+jump-get () {
+        local jumpline jumpdir
+        jumpline=$(cat ${BOOKMARKS_FILE} | $(fzfcmd) --bind=ctrl-y:accept --tac)
+        if [[ -n ${jumpline} ]]
+        then
+                jumpdir=$(echo $jumpline | awk '{print $3}' | sed "s#~#$HOME#")
+                echo -n ${jumpdir}
+        fi
+        zle && zle reset-prompt
+    }
+
 function dmark()  {
     local marks_to_delete line
 
